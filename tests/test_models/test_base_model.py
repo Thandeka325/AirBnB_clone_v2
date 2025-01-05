@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-""" """
+""" Test base model """
 from models.base_model import BaseModel
 import unittest
 import datetime
@@ -35,7 +35,7 @@ class test_basemodel(unittest.TestCase):
     def tearDown(self):
         try:
             os.remove('file.json')
-        except:
+        except FileNotFoundError:
             pass
 
     def test_default(self):
