@@ -10,25 +10,30 @@ This repository contains the initial stage of a student project to build a clone
 
 Environment variables will be your best friend for this project!
 
--`HBNB_ENV`: running environment. It can be “dev” or “test” for the moment (“production” soon!)
--`HBNB_MYSQL_USER`: the username of your MySQL
--`HBNB_MYSQL_PWD`: the password of your MySQL
--`HBNB_MYSQL_HOST`: the hostname of your MySQL
--`HBNB_MYSQL_DB`: the database name of your MySQL
--`HBNB_TYPE_STORAGE`: the type of storage used. It can be “file” (using FileStorage) or db (using DBStorage)
+- `HBNB_ENV`: running environment. It can be “dev” or “test” for the moment (“production” soon!)
+- `HBNB_MYSQL_USER`: the username of your MySQL
+- `HBNB_MYSQL_PWD`: the password of your MySQL
+- `HBNB_MYSQL_HOST`: the hostname of your MySQL
+- `HBNB_MYSQL_DB`: the database name of your MySQL
+- `HBNB_TYPE_STORAGE`: the type of storage used. It can be “file” (using FileStorage) or db (using DBStorage)
 
 # __Resources__
 
 Read or watch:
 
--[cmd module](https://docs.python.org/3/library/cmd.html)
--[unittest module](https://docs.python.org/3/library/unittest.html#module-unittest)
--[args/kwargs](https://yasoob.me/2013/08/04/args-and-kwargs-in-python-explained/)
--[SQLAlchemy tutorial](https://docs.sqlalchemy.org/en/13/orm/tutorial.html)
--[How To Create a New User and Grant Permissions in MySQL](https://www.digitalocean.com/community/tutorials/how-to-create-a-new-user-and-grant-permissions-in-mysql)
--[Python3 and environment variables](https://docs.python.org/3/library/os.html#os.getenv)
--[SQLAlchemy](https://docs.sqlalchemy.org/en/13/)
--[MySQL 8.0 SQL Statement Syntax](https://dev.mysql.com/doc/refman/8.0/en/sql-statements.html)
+- [cmd module](https://docs.python.org/3/library/cmd.html)
+- [unittest module](https://docs.python.org/3/library/unittest.html#module-unittest)
+- [args/kwargs](https://yasoob.me/2013/08/04/args-and-kwargs-in-python-explained/)
+- [SQLAlchemy tutorial](https://docs.sqlalchemy.org/en/13/orm/tutorial.html)
+- [How To Create a New User and Grant Permissions in MySQL](https://www.digitalocean.com/community/tutorials/how-to-create-a-new-user-and-grant-permissions-in-mysql)
+- [Python3 and environment variables](https://docs.python.org/3/library/os.html#os.getenv)
+- [SQLAlchemy](https://docs.sqlalchemy.org/en/13/)
+- [MySQL 8.0 SQL Statement Syntax](https://dev.mysql.com/doc/refman/8.0/en/sql-statements.html)
+
+# __More Info__
+
+![image](https://github.com/user-attachments/assets/ab4fa870-a90a-4640-8051-f14c94c32ab1)
+
 
 <center><h3>Repository Contents by Project Task</h3> </center>
 
