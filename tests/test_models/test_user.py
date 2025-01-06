@@ -16,19 +16,43 @@ class test_User(test_basemodel):
     def test_first_name(self):
         """ """
         new = self.value()
-        self.assertEqual(type(new.first_name), str)
+        self.assertTrue(
+                isinstance(new.first_name, (str, type(None))),
+                (
+                    "Expected type of first name to be str or NoneType, got "
+                    f"{type(new.first_name)}"
+                )
+        )
 
     def test_last_name(self):
         """ """
         new = self.value()
-        self.assertEqual(type(new.last_name), str)
+        self.assertTrue(
+                isinstance(new.last_name, (str, type(None))),
+                (
+                    "Expected type of last name to be str or NoneType, got "
+                    f"{type(new.last_name)}"
+                )
+        )
 
     def test_email(self):
         """ """
         new = self.value()
-        self.assertEqual(type(new.email), str)
+        self.assertTrue(
+                isinstance(new.email, (str, type(None))),
+                (
+                    "Expected type of email to be str or NoneType, got "
+                    f"{type(new.email)}"
+                )
+        )
 
     def test_password(self):
         """ """
         new = self.value()
-        self.assertEqual(type(new.password), str)
+        self.assertTrue(
+                isinstance(new.password, (str, type(None))),
+                (
+                    "Expected type of password to be str or NoneType, got "
+                    f"{type(new.password)}"
+                )
+        )

@@ -102,12 +102,11 @@ class test_basemodel(unittest.TestCase):
         self.assertEqual(type(new.created_at), datetime.datetime)
 
     def test_updated_at(self):
-        """ """
+        """Test updated_at is properly updated"""
         new = self.value()
-        self.assertEqual(type(new.updated_at), datetime.datetime)
-        n = new.to_dict()
-        new = BaseModel(**n)
-        self.assertFalse(new.created_at == new.updated_at)
+        updated_at_before = new.updated_at
+        new.save()
+        self.assertNotEqual(updated_at_before, new.updated_at)
 
     def test_uuid(self):
         """
@@ -184,7 +183,7 @@ class TestBaseModel(unittest.TestCase):
 
     def test_pep8_BaseModel(self):
         """Testing for pep8"""
-        style = pep8.StyleGuide(quiet=True)
+        style = pycodestyle.StyleGuide(quiet=True)
         p = style.check_files(['models/base_model.py'])
         self.assertEqual(p.total_errors, 0, "fix pep8")
 

@@ -19,6 +19,14 @@ class DBStorage:
     __session = None
 
     def __init__(self):
+        """
+        Initialize the DBStorage engine and session.
+
+        Attributes:
+            __engine: The SQLAlchemy engine used for DB communication.
+            __session: The scoped session for DB operations.
+        """
+
         user = getenv("HBNB_MYSQL_USER")
         passwd = getenv("HBNB_MYSQL_PWD")
         db = getenv("HBNB_MYSQL_DB")

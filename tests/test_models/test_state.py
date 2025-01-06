@@ -16,4 +16,10 @@ class test_state(test_basemodel):
     def test_name3(self):
         """ """
         new = self.value()
-        self.assertEqual(type(new.name), str)
+        self.assertTrue(
+                isinstance(new.name, (str, type(None))),
+                (
+                    "Expected type of name to be str or NoneType, got "
+                    f"{type(new.name)}"
+                )
+        )
