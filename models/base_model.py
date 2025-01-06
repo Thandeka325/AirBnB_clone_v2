@@ -23,18 +23,16 @@ class BaseModel:
         Args:
             args: it won't be used
             kwargs: arguments for the constructor of the BaseModel
-        Attributes:
-            id: unique id generated
-            created_at: creation date
-            updated_at: updated date
         """
         if kwargs:
             self.id = kwargs.get('id', str(uuid4()))
             self.created_at = datetime.strptime(
-                    kwargs['created_at'], '%Y-%m-%dT%H:%M:%S.%f'
+                    kwargs.get('created_at', datetime.utcnow().isoformat()),
+                    '%Y-%m-%dT%H:%M:%S.%f'
             )
             self.updated_at = datetime.strptime(
-                    kwargs['updated_at'], '%Y-%m-%dT%H:%M:%S.%f'
+                    kwargs.get('updated_at', datetime.utcnow().isoformat()),
+                    '%Y-%m-%dT%H:%M:%S.%f'
             )
         else:
             self.id = str(uuid4())
