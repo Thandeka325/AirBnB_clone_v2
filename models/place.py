@@ -1,22 +1,30 @@
 #!/usr/bin/python3
 """This is the place class"""
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import Column, String, Integer, Float, ForeignKey, Table
 from models.base_model import BaseModel, Base
-from sqlalchemy import Column, Table, String, Integer, Float, ForeignKey
 from sqlalchemy.orm import relationship
 from os import getenv
 import models
 
-
-place_amenity = Table("place_amenity", Base.metadata,
-                      Column("place_id", String(60),
-                             ForeignKey("places.id"),
-                             primary_key=True,
-                             nullable=False),
-                      Column("amenity_id", String(60),
-                             ForeignKey("amenities.id"),
-                             primary_key=True,
-                             nullable=False))
+# Many-to-Many relationship table for Amenity and Place
+place_amenity = Table(
+    "place_amenity",
+    Base.metadata,
+    Column(
+        "place_id",
+        String(60),
+        ForeignKey("places.id"),
+        primary_key=True,
+        nullable=False
+    ),
+    Column(
+        "amenity_id",
+        String(60),
+        ForeignKey("amenities.id"),
+        primary_key=True,
+        nullable=False
+    )
+)
 
 
 class Place(BaseModel, Base):
@@ -29,12 +37,13 @@ class Place(BaseModel, Base):
         number_rooms: number of room in int
         number_bathrooms: number of bathrooms in int
         max_guest: maximum guest in int
-        price_by_night:: pice for a staying in int
-        latitude: latitude in flaot
+        price_by_night:: price for a stay in int
+        latitude: latitude in float
         longitude: longitude in float
         amenity_ids: list of Amenity ids
     """
     __tablename__ = "places"
+
     city_id = Column(String(60), ForeignKey("cities.id"), nullable=False)
     user_id = Column(String(60), ForeignKey("users.id"), nullable=False)
     name = Column(String(128), nullable=False)
@@ -48,36 +57,32 @@ class Place(BaseModel, Base):
     amenity_ids = []
 
     if getenv("HBNB_TYPE_STORAGE") == "db":
-        reviews = relationship("Review", cascade='all, delete, delete-orphan',
-                               backref="place")
-
-        amenities = relationship("Amenity", secondary=place_amenity,
-                                 viewonly=False,
-                                 back_populates="place_amenities")
+        # DBStorage relationship with Amenity
+        amenities = relationship(
+            "Amenity",
+            secondary=place_amenity,
+            viewonly=False,
+            back_populates="places"
+        )
     else:
         @property
-        def reviews(self):
-            """ Returns list of reviews.id """
+        def amenities(self):
+            """Returns list of amenity ids"""
             var = models.storage.all()
             lista = []
             result = []
             for key in var:
                 review = key.replace('.', ' ')
                 review = shlex.split(review)
-                if (review[0] == 'Review'):
+                if review[0] == 'Amenity':
                     lista.append(var[key])
             for elem in lista:
-                if (elem.place_id == self.id):
+                if elem.id in self.amenity_ids:
                     result.append(elem)
-            return (result)
-
-        @property
-        def amenities(self):
-            """ Returns list of amenity ids """
-            return self.amenity_ids
+            return result
 
         @amenities.setter
         def amenities(self, obj=None):
-            """ Appends amenity ids to the attribute """
-            if type(obj) is Amenity and obj.id not in self.amenity_ids:
+            """Appends amenity ids to the attribute"""
+            if isinstance(obj, Amenity) and obj.id not in self.amenity_ids:
                 self.amenity_ids.append(obj.id)
