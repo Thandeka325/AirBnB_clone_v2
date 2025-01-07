@@ -23,47 +23,45 @@ class FileStorage:
         }
 
     def all(self, cls=None):
-        """Returns a dictionary of models currently in storage"""
+        """Returns a dictionary of models currently in storage
+        If cls is provided, it filters by cls type.
+        """
         if cls is None:
             return self.__objects
         else:
-            filtered_dict = {}
-            for key, value in self.__objects.items():
-                if type(value) is cls:
-                    filtered_dict[key] = value
-            return filtered_dict
+            return {
+                key: val for key, val in self.__objects.items()
+                if isinstance(val, cls)
+            }
 
     def delete(self, obj=None):
         """Removes an object from the storage dictionary"""
         if obj is not None:
-            obj_key = obj.to_dict()['__class__'] + '.' + obj.id
-            if obj_key in self.__objects.keys():
-                del self.__objects[obj_key]
+            key = f"{obj.__class__.__name__}.{obj.id}"
+            if key in self.__objects:
+                del self.__objects[key]
 
     def new(self, obj):
         """Adds new object to storage dictionary"""
         self.__objects.update(
-            {obj.to_dict()['__class__'] + '.' + obj.id: obj}
+            {f"{obj.__class__.__name__}.{obj.id}": obj}
         )
 
     def save(self):
         """Saves storage dictionary to file"""
         with open(self.__file_path, 'w') as file:
-            temp = {}
-            for key, val in self.__objects.items():
-                temp[key] = val.to_dict()
+            temp = {key: obj.to_dict() for key, obj in self.__objects.items()}
             json.dump(temp, file)
 
     def reload(self):
         """Loads storage dictionary from file"""
-        classes = self.model_classes
         if os.path.isfile(self.__file_path):
-            temp = {}
             with open(self.__file_path, 'r') as file:
                 temp = json.load(file)
                 for key, val in temp.items():
-                    self.all()[key] = classes[val['__class__']](**val)
+                    cls_name = val['__class__']
+                    self.__objects[key] = self.model_classes[cls_name](**val)
 
     def close(self):
-        """Closes the storage engine."""
+        """Closes the storage engine by reloading the JSON file."""
         self.reload()
