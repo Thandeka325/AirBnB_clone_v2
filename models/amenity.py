@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """This the module for the Amenity class"""
 from models.base_model import BaseModel, Base
-from sqlalchemy import Column, String
+from sqlalchemy import Column, String, ForeignKey
 from sqlalchemy.orm import relationship
 from os import getenv
 
@@ -14,5 +14,11 @@ class Amenity(BaseModel, Base):
     if storage_t == "db":
         name = Column(String(128), nullable=False)
 
-    places = relationship(
-            "Place", secondary="place_amenity", back_populates="amenities")
+        def get_place_amenity():
+            from models.place import place_amenity
+            return place_amenity
+
+        places = relationship(
+            "Place",
+            secondary=get_place_amenity, back_populates="amenities"
+        )
