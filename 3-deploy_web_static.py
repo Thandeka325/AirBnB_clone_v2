@@ -8,7 +8,7 @@ from datetime import datetime
 import os
 
 # Define the IP addresses of the web servers
-env.hosts = ['34.237.91.31', '18.234.169.141']
+env.hosts = ["34.237.91.31", "18.234.169.141"]
 
 
 def do_pack():
