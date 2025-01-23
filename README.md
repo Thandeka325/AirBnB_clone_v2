@@ -172,7 +172,8 @@ Usage: <class_name>.update(<_id>, <dictionary>)
 ```
 <be>
 
-# __0x03. AirBnB clone - Deploy static__
+
+# __Project: 0x03. AirBnB clone - Deploy static__
 
 __Background Context__
 
