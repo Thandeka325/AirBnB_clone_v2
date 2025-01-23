@@ -1,17 +1,16 @@
 #!/usr/bin/python3
 """
-Fabric script to delete out-of-date archives.
+Fabric script to delete out of date archives.
 """
 
 import os
-from fabric.api import env, run, local
+from fabric.api import *
 
-env.hosts = ["34.237.91.31", "18.234.169.141"]
+env.hosts = ['34.237.91.31', '18.234.169.141']
 
 
 def do_clean(number=0):
-    """
-    Deletes out-of-date archives in the local and remote servers.
+    """Delete out-of-date archives in the local and remote servers.
 
     Args:
         number (int): The number of the most recent archives to keep.
@@ -19,25 +18,15 @@ def do_clean(number=0):
                       If number is 2, keep the most recent and,
                       second most recent, etc.
     """
-    # Get list of archives in the local versions directory
-    local_archives = sorted(local("ls -t versions", capture=True).splitlines())
+    number = 1 if int(number) == 0 else int(number)
 
-    # If the number is 0 or 1, keep only the most recent archive
-    if number == 0 or number == 1:
-        archives_to_keep = 1
-    else:
-        archives_to_keep = number
+    archives_names = sorted(os.listdir("versions"))
+    [archives.pop() for i in range(number)]
+    with lcd("versions"):
+        [local("rm ./{}".format(a)) for a in archives_names]
 
-    # Remove the archives in the local 'versions' folder.
-    if len(local_archives) > archives_to_keep:
-        for archive in local_archives[archives_to_keep:]:
-            local(f"rm versions/{archive}")
-
-    # Get list of archives in the remote server's releases folder
-    for host in env.hosts:
-        remote_archives = run("ls -t /data/web_static/releases").splitlines()
-
-        # Remove the archives in the remote releases folder.
-        if len(remote_archives) > archives_to_keep:
-            for archive in remote_archives[archives_to_keep:]:
-                run(f"rm -rf /data/web_static/releases/{archive}")
+    with cd("/data/web_static/releases"):
+        archives_names = run("ls -tr").split()
+        archives_names = [a for a in archives if "web_static_" in a]
+        [archives_names.pop() for i in range(number)]
+        [run("rm -rf ./{}".format(a)) for a in archives_names]

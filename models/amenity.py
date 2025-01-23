@@ -11,9 +11,10 @@ storage_t = getenv("HBNB_TYPE_STORAGE")
 class Amenity(BaseModel, Base):
     """Represents an Amenity for a MySQL database."""
     __tablename__ = "amenities"
-    if storage_t == "db":
-        name = Column(String(128), nullable=False)
 
+    name = Column(String(128), nullable=False)
+
+    if storage_t == "db":
         def get_place_amenity():
             from models.place import place_amenity
             return place_amenity
