@@ -1,29 +1,27 @@
 #!/usr/bin/python3
-"""Flask web application to display states and amenities."""
-from flask import Flask, render_template
+"""Flask web applicationto display states and amenities.
+"""
 from models import storage
-from models.state import State
-from models.amenity import Amenity
+from flask import Flask, render_template
 
 
 app = Flask(__name__)
-app.url_map.strict_slashes = False
+
+
+@app.route("/hbnb_filters", strict_slashes=False)
+def hbnb_filters():
+    """Displays the main HBnB filters HTML page."""
+    states = storage.all("State")
+    amenities = storage.all("Amenity")
+    return render_template("10-hbnb_filters.html",
+                           states=states, amenities=amenities)
 
 
 @app.teardown_appcontext
-def close_storage(exception):
-    """Close the SQLAlchemy session after each request."""
+def teardown(exc):
+    """Remove the current SQLAlchemy session."""
     storage.close()
 
 
-@app.route('/hbnb_filters')
-def hbnb_filters():
-    """Display an HTML page with state and amenity filters."""
-    states = sorted(storage.all(State).values(), key=lambda s: s.name)
-    amenities = sorted(storage.all(Amenity).values(), key=lambda a: a.name)
-    return render_template(
-            '10-hbnb_filters.html', states=states, amenities=amenities)
-
-
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+if __name__ == "__main__":
+    app.run(host="0.0.0.0")
